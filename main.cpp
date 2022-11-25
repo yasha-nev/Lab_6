@@ -16,6 +16,7 @@
 bool ReadFromFile(char *f, List &list){
     std::fstream file;
     file.open(f, std::ios_base::in);
+
     int n = 0;
     file >> n;
 
@@ -23,13 +24,11 @@ bool ReadFromFile(char *f, List &list){
         std::cout << "ERROR: fail read count numbers" << "\n";
         return 0;
     }
-
     for (int i = 0; i < n; i++){
         int num;
         file >> num;
         list.Append(num);
     }
-
     if (file.fail()){
         std::cout << "ERROR: fail read number" << "\n";
         return 0;

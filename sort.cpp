@@ -4,6 +4,7 @@
 Sort::Sort(List *_list, bool _checkNegative){
     list          = _list;
     supList       = nullptr;
+    result        = nullptr;
     maxNumLine    = 0;
     minNumLine    = 0;
     checkNegavive = _checkNegative;
