@@ -4,7 +4,6 @@
 Sort::Sort(List *_list, bool _checkNegative){
     list          = _list;
     supList       = nullptr;
-    result        = nullptr;
     maxNumLine    = 0;
     minNumLine    = 0;
     checkNegavive = _checkNegative;
@@ -29,15 +28,15 @@ int Sort::CountNumInNum(int num){
 
 void Sort::InitSupList(){
     if (!checkNegavive){
-        maxNumLine = CountNumInNum(list->absMax);
-        minNumLine = CountNumInNum(list->absMin);
+        maxNumLine = CountNumInNum(list->AbsMaxValue());
+        minNumLine = CountNumInNum(list->AbsMinValue());
     }
     else{
         maxNumLine = CountNumInNum(list->MaxValue());
         minNumLine = CountNumInNum(list->MinValue());
-
     }
-    int n = abs(maxNumLine - minNumLine) + 1;
+
+    int n   = abs(maxNumLine - minNumLine) + 1;
     supList = new List[n];
 
     Node *node = list->Head();
@@ -53,16 +52,16 @@ void Sort::SortSupList(int i){
     int min = 0;
 
     if (!checkNegavive){
-        max = supList[i].absMax;
-        min = supList[i].absMin;
+        max = supList[i].AbsMaxValue();
+        min = supList[i].AbsMinValue();
     }
     else {
         max = supList[i].MaxValue();
         min = supList[i].MinValue();
     }
-
     int k = abs(max - min + 1);
     List sortlist[k];
+
     Node *node = supList[i].Head();
 
     while (node!= nullptr){
@@ -85,7 +84,7 @@ List *Sort::SortList(){
     result = new List;
 
     InitSupList();
-    for (int i = 0; i < maxNumLine - minNumLine + 1; i++){
+    for (int i = 0; i < abs(maxNumLine - minNumLine + 1); i++){
         if (supList[i].Size() != 0){
             SortSupList(i);
         }

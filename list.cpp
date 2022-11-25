@@ -10,6 +10,7 @@ List::List(){
     absMax = 0;
     absMin = 0;
 }
+
 List::List(const List &list){
     if (list.size != 0){
         List newlist;
@@ -53,6 +54,14 @@ int List::MaxValue(){
 
 int List::MinValue(){
     return min;
+}
+
+int List::AbsMaxValue(){
+    return absMax;
+}
+
+int List::AbsMinValue(){
+    return absMin;
 }
 
 void List::Append(int _value){

@@ -14,7 +14,7 @@
 */
 
 bool ReadFromFile(char *f, List &list){
-    fstream file;
+    std::fstream file;
     file.open(f, std::ios_base::in);
     int n = 0;
     file >> n;
@@ -39,8 +39,6 @@ bool ReadFromFile(char *f, List &list){
 
     return 1;
 }
-
-int arr[] = {1024, 2, -16, -1, -32, -128, -64, 32, -4, 256, 8, -512};
 
 int main(int argc, char **argv)
 {

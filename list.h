@@ -13,10 +13,10 @@ struct Node{
 class List
 {
 private:
-
-
     int max;
     int min;
+    int absMax;
+    int absMin;
     int size;
     Node *head;
     Node *tail;
@@ -25,9 +25,6 @@ public:
     List();
     List(const List &list);
     ~List();
-
-    int absMax;
-    int absMin;
 
     void Append(int _value);
     void Insert(Node *node, int _value);
@@ -42,6 +39,8 @@ public:
     int Size();
     int MaxValue();
     int MinValue();
+    int AbsMaxValue();
+    int AbsMinValue();
 };
 
 #endif // LIST_H
