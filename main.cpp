@@ -1,8 +1,7 @@
 #include <iostream>
+#include <fstream>
 #include "list.h"
 #include "sort.h"
-
-using namespace std;
 
 /*
  * Лексикографическая сортировка
@@ -14,51 +13,51 @@ using namespace std;
  * б) целые
 */
 
-/*
- * 1024:
- * 1 * 1024
- * 2 * 512
- * 4 * 256
- * 8 * 128
- * 16 * 64
- * 32 * 32
- * 64 * 16
- * 128 * 8
- * 256 * 4
- * 512 * 2
- * 1024 * 1
- */
+bool ReadFromFile(char *f, List &list){
+    fstream file;
+    file.open(f, std::ios_base::in);
+    int n = 0;
+    file >> n;
 
-//int arr[] = {1, 2, 4, 8, 16, 32, 32, 64, 128, 256, 512, 1024};
-int arr[] = {-1024, 2, 16, -1, 32, 128, 64, 32, -4, -256, 8, 512};
+    if (file.fail()){
+        std::cout << "ERROR: fail read count numbers" << "\n";
+        return 0;
+    }
 
-int main()
-{
-    int countNegative = 0;
-    bool checkNegative = 0;
-    int n = 12;
-
-    List list;
     for (int i = 0; i < n; i++){
-        list.Append(arr[i]);
-
-        if (arr[i] < 0) countNegative++;
+        int num;
+        file >> num;
+        list.Append(num);
     }
 
-    if (countNegative == 0 || countNegative != n / 2){
-        cout << "case 1\n";
-        checkNegative = 0;
+    if (file.fail()){
+        std::cout << "ERROR: fail read number" << "\n";
+        return 0;
     }
 
-    //else{
-    //    cout << "case 2\n";
-    //    checkNegative = 1;
-    //}
+    file.close();
 
-    Sort sort(&list, checkNegative);
+    return 1;
+}
+
+int arr[] = {1024, 2, -16, -1, -32, -128, -64, 32, -4, 256, 8, -512};
+
+int main(int argc, char **argv)
+{
+    if (argc < 2){
+        std::cout << "ERROR: No main arguments" << std::endl;
+        return 0;
+    }
+    List list;
+
+    if (!ReadFromFile(argv[1], list)){
+        std::cout << "ERROR: fail data reading" << std::endl;
+        return 0;
+    }
+
+    Sort sort(&list, false);
     List *result = sort.SortList();
 
-    //result->Print();
     //print task
     Node *head = result->Head();
     Node *tail = result->Tail();
