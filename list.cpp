@@ -7,21 +7,19 @@ List::List(){
     size   = 0;
     max    = 0;
     min    = 0;
-    absMax = 0;
-    absMin = 0;
 }
 
 List::List(const List &list){
-    if (list.size != 0){
-        List newlist;
-        Node *node = list.head;
-        while (node != nullptr){
-            newlist.Append(node->value);
-            node = node->next;
-        }
-        head = newlist.head;
-        tail = newlist.tail;
-        size = list.size;
+    head   = nullptr;
+    tail   = nullptr;
+    size   = 0;
+    max    = 0;
+    min    = 0;
+
+    Node *node = list.head;
+    while (node != nullptr){
+        Append(node->value);
+        node = node->next;
     }
 }
 
@@ -40,14 +38,6 @@ int List::Size(){
     return size;
 }
 
-Node *List::Head(){
-    return head;
-}
-
-Node *List::Tail(){
-    return tail;
-}
-
 int List::MaxValue(){
     return max;
 }
@@ -56,25 +46,22 @@ int List::MinValue(){
     return min;
 }
 
-int List::AbsMaxValue(){
-    return absMax;
+Node *List::Head(){
+    return head;
 }
 
-int List::AbsMinValue(){
-    return absMin;
+Node *List::Tail(){
+    return tail;
 }
 
 void List::Append(int _value){
     Node *node = new Node;
     node->value = _value;
     if (size == 0){
-        absMax = abs(_value);
-        absMin = abs(_value);
-        max = _value;
-        min = _value;
-
         head = node;
         tail = node;
+        max  = abs(_value);
+        min  = abs(_value);
 
         node->next    = nullptr;
         node->prevous = nullptr;
@@ -82,12 +69,9 @@ void List::Append(int _value){
         size++;
     }
     else{
-        absMax = absMax > abs(_value) ? absMax : abs(_value);
-        absMin = absMin < abs(_value) ? absMin : abs(_value);
-
-        max = max > _value ? max : _value;
-        min = min < _value ? min : _value;
-
+        int avalue = abs(_value);
+        max = max < avalue ? avalue : max;
+        min = min > avalue ? avalue : min;
         node->id = tail->id + 1;
         node->next = nullptr;
         node->prevous = tail;
@@ -108,11 +92,11 @@ void List::Appendlist(List &list){
     if (list.Head() == nullptr){
         return;
     }
-    max = max > list.max ? max : list.max;
-    min = min < list.min ? min : list.min;
-
-    absMax = absMax > list.absMax ? absMax : list.absMax;
-    absMin = absMin < list.absMin ? absMin : list.absMin;
+    //Node *node = list.head;
+    //while (node != nullptr){
+    //    Append(node->value);
+    //    node = node->next;
+    //}
 
     Node *node = list.head;
     if (!head){
@@ -121,6 +105,8 @@ void List::Appendlist(List &list){
         node->prevous = tail;
         tail->next = node;
     }
+    max = max < abs(list.max) ? abs(list.max) : max;
+    min = min < abs(list.min) ? abs(list.min) : min;
 
     tail = list.tail;
     size += list.size;
@@ -129,24 +115,6 @@ void List::Appendlist(List &list){
     list.tail = nullptr;
     list.size = 0;
 
-}
-
-void List::Insert(Node *past_node, int _value){
-    if (size == 0){
-        Append(_value);
-        return;
-    }
-    Node *node = new Node;
-    node->value = _value;
-
-    node->next = past_node->next;
-    past_node->next = node;
-    node->prevous = past_node;
-
-    if (past_node == tail){
-        tail = node;
-    }
-    size++;
 }
 
 void List::Delete(Node *node)
@@ -178,9 +146,42 @@ void List::Delete(Node *node)
 }
 
 void List::Print(){
-    Node *node = head;
-    while (node != nullptr){
+    for (Node *node = head; node != nullptr; node = node->next){
         std::cout << node->value << std::endl;
-        node = node->next;
     }
 }
+void List::Clear(){
+
+    Node *node = tail;
+    while (node != nullptr){
+        Node *sup_node = node;
+        node = node->prevous;
+        if (sup_node){
+            delete sup_node;
+        }
+    }
+
+    head   = nullptr;
+    tail   = nullptr;
+    size   = 0;
+    max    = 0;
+    min    = 0;
+}
+
+List &List::operator=(const List &right){
+    if (this == &right) {
+        return *this;
+    }
+    Clear();
+
+    Node *node = right.head;
+
+    while (node != nullptr){
+        Append(node->value);
+        node = node->next;
+    }
+
+    return *this;
+}
+
+

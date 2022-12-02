@@ -11,7 +11,6 @@ public:
     List *SortList();
 
 private:
-    List *result;
     List *supList;
     List *list;
 
@@ -22,6 +21,7 @@ private:
 
     int CountNumInNum(int num);
     void InitSupList();
+    List SortNumbers(List list, int i);
     void SortSupList(int i);
 };
 

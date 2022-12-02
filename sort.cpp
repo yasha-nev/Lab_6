@@ -4,7 +4,6 @@
 Sort::Sort(List *_list, bool _checkNegative){
     list          = _list;
     supList       = nullptr;
-    result        = nullptr;
     maxNumLine    = 0;
     minNumLine    = 0;
     checkNegavive = _checkNegative;
@@ -28,14 +27,8 @@ int Sort::CountNumInNum(int num){
 }
 
 void Sort::InitSupList(){
-    if (!checkNegavive){
-        maxNumLine = CountNumInNum(list->AbsMaxValue());
-        minNumLine = CountNumInNum(list->AbsMinValue());
-    }
-    else{
-        maxNumLine = CountNumInNum(list->MaxValue());
-        minNumLine = CountNumInNum(list->MinValue());
-    }
+    maxNumLine = CountNumInNum(list->MaxValue());
+    minNumLine = CountNumInNum(list->MinValue());
 
     int n   = abs(maxNumLine - minNumLine) + 1;
     supList = new List[n];
@@ -48,46 +41,51 @@ void Sort::InitSupList(){
     }
 }
 
-void Sort::SortSupList(int i){
-    int max = 0;
-    int min = 0;
-
-    if (!checkNegavive){
-        max = supList[i].AbsMaxValue();
-        min = supList[i].AbsMinValue();
+int power(int num, int k){
+    int res;
+    for (int i = 0; i < k; i++){
+        res = num % 10;
+        num = num / 10;
     }
-    else {
-        max = supList[i].MaxValue();
-        min = supList[i].MinValue();
+
+    return res;
+}
+
+List Sort::SortNumbers(List list, int i){
+    if (i < 1){
+        return list;
     }
-    int k = abs(max - min + 1);
-    List sortlist[k];
 
-    Node *node = supList[i].Head();
+    List l[10];
+    List res;
 
-    while (node!= nullptr){
-        int num = node->value;
-        if (!checkNegavive){
-            num = abs(node->value);
-        }
-
-        int n = abs(num - min);
-        sortlist[n].Append(node->value);
+    Node *node = list.Head();
+    while(node != nullptr){
+        int k = power(abs(node->value), i);
+        l[k].Append(node->value);
         node = node->next;
     }
 
-    for (int j = 0; j < max - min + 1; j++){
-        result->Appendlist(sortlist[j]);
+    for (int j = 0; j < 10; j++){
+        if (l[i].Size() > 1){
+            List ll = SortNumbers(l[j], i-1);
+            res.Appendlist(ll);
+        }
+        else{
+            res.Appendlist(l[j]);
+        }
     }
+    return res;
 }
 
 List *Sort::SortList(){
-    result = new List;
+    List *result = new List;
 
     InitSupList();
     for (int i = 0; i < abs(maxNumLine - minNumLine + 1); i++){
         if (supList[i].Size() != 0){
-            SortSupList(i);
+            List l = SortNumbers(supList[i], i+1);
+            result->Appendlist(l);
         }
     }
 

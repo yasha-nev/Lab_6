@@ -54,18 +54,19 @@ int main(int argc, char **argv)
 
     Sort sort(&list, false);
     List *result = sort.SortList();
-
     //print task
-    Node *head = result->Head();
-    Node *tail = result->Tail();
-    int k = 0;
+    result->Print();
+//    Node *head = result->Head();
+//    Node *tail = result->Tail();
+//    int k = 0;
 
-    while (k != result->Size()/2){
-        std::cout << head->value << " " << tail->value << "\n";
-        head = head->next;
-        tail = tail->prevous;
-        k++;
-    }
+
+//   while (k != result->Size()/2){
+//        std::cout << head->value << " " << tail->value << "\n";
+//        head = head->next;
+//        tail = tail->prevous;
+//        k++;
+//   }
 
     std::cout << std::endl;
 
