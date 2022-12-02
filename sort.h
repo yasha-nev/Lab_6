@@ -6,7 +6,7 @@
 class Sort
 {
 public:
-    Sort(List *list, bool checkNegative);
+    Sort(List *list);
     ~Sort();
     List *SortList();
 
@@ -17,12 +17,10 @@ private:
     int maxNumLine;
     int minNumLine;
 
-    bool checkNegavive;
-
+    int GetNumFromNum(int num, int k);
     int CountNumInNum(int num);
     void InitSupList();
     List SortNumbers(List list, int i);
-    void SortSupList(int i);
 };
 
 #endif // SORT_H

@@ -1,12 +1,11 @@
 #include "sort.h"
 #include <cmath>
 
-Sort::Sort(List *_list, bool _checkNegative){
+Sort::Sort(List *_list){
     list          = _list;
     supList       = nullptr;
     maxNumLine    = 0;
     minNumLine    = 0;
-    checkNegavive = _checkNegative;
 }
 
 Sort::~Sort(){
@@ -20,10 +19,17 @@ int Sort::CountNumInNum(int num){
         supNum = supNum / 10;
         n++;
     }
-    if (checkNegavive){
-        n = n * num/abs(num);
-    }
     return n;
+}
+
+int Sort::GetNumFromNum(int num, int k){
+    int res;
+    for (int i = 0; i < k; i++){
+        res = num % 10;
+        num = num / 10;
+    }
+
+    return res;
 }
 
 void Sort::InitSupList(){
@@ -33,22 +39,10 @@ void Sort::InitSupList(){
     int n   = abs(maxNumLine - minNumLine) + 1;
     supList = new List[n];
 
-    Node *node = list->Head();
-    while (node != nullptr){
+    for (Node *node = list->Head(); node != nullptr; node = node->next){
         int i = abs(CountNumInNum(node->value) - minNumLine);
         supList[i].Append(node->value);
-        node = node->next;
     }
-}
-
-int power(int num, int k){
-    int res;
-    for (int i = 0; i < k; i++){
-        res = num % 10;
-        num = num / 10;
-    }
-
-    return res;
 }
 
 List Sort::SortNumbers(List list, int i){
@@ -59,11 +53,9 @@ List Sort::SortNumbers(List list, int i){
     List l[10];
     List res;
 
-    Node *node = list.Head();
-    while(node != nullptr){
-        int k = power(abs(node->value), i);
+    for (Node *node = list.Head(); node != nullptr; node = node->next){
+        int k = GetNumFromNum(abs(node->value), i);
         l[k].Append(node->value);
-        node = node->next;
     }
 
     for (int j = 0; j < 10; j++){

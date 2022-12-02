@@ -5,7 +5,6 @@
 
 struct Node{
     int value;
-    int id;
     Node* next;
     Node* prevous;
 };
@@ -25,9 +24,8 @@ public:
     ~List();
 
     void Append(int _value);
-
-    void Delete(Node *node);
     void Appendlist(List &list);
+    void Delete(Node *node);
     void Print();
     void Clear();
 
@@ -37,6 +35,8 @@ public:
     int Size();
     int MaxValue();
     int MinValue();
+
+    //operator
     List &operator=(const List &right);
 };
 

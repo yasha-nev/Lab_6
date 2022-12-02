@@ -52,22 +52,18 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    Sort sort(&list, false);
+    Sort sort(&list);
     List *result = sort.SortList();
     //print task
-    result->Print();
-//    Node *head = result->Head();
-//    Node *tail = result->Tail();
-//    int k = 0;
 
+    Node *head = result->Head();
+    Node *tail = result->Tail();
 
-//   while (k != result->Size()/2){
-//        std::cout << head->value << " " << tail->value << "\n";
-//        head = head->next;
-//        tail = tail->prevous;
-//        k++;
-//   }
-
+    for (int i = 0; i != result->Size()/2; i++){
+        std::cout << head->value << " " << tail->value << "\n";
+        head = head->next;
+        tail = tail->prevous;
+    }
     std::cout << std::endl;
 
     delete result;
